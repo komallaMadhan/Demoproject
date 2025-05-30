@@ -1,0 +1,1515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arena Liquor - Discover Your Perfect Liquor</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #cbd5e1 100%);
+            color: #1e293b;
+            min-height: 100vh;
+            font-weight: 400;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 16px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            backdrop-filter: blur(10px);
+        }
+
+        .header h1 {
+            font-size: 3.5rem;
+            margin-bottom: 15px;
+            color: #475569;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            color: #64748b;
+            font-weight: 400;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 12px;
+            padding: 8px;
+            flex-wrap: wrap;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+        }
+
+        .nav-btn {
+            padding: 12px 24px;
+            margin: 4px;
+            background: transparent;
+            border: 1px solid #e2e8f0;
+            color: #475569;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+
+        .nav-btn:hover {
+            background: #f1f5f9;
+            border-color: #cbd5e1;
+            transform: translateY(-1px);
+        }
+
+        .nav-btn.active {
+            background: #475569;
+            color: white;
+            border-color: #475569;
+            box-shadow: 0 2px 8px rgba(71, 85, 105, 0.3);
+        }
+
+        .section {
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .quiz-section {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 32px;
+            border-radius: 16px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            backdrop-filter: blur(10px);
+        }
+
+        .question-block {
+            margin-bottom: 28px;
+            padding: 24px;
+            background: rgba(248, 250, 252, 0.8);
+            border-radius: 12px;
+            border: 1px solid #f1f5f9;
+        }
+
+        .question-title {
+            font-size: 1.3rem;
+            color: #334155;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 12px;
+        }
+
+        .option-card {
+            padding: 16px;
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: center;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #475569;
+            font-weight: 500;
+        }
+
+        .option-card:hover {
+            border-color: #94a3b8;
+            background: #f8fafc;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .option-card.selected {
+            border-color: #475569;
+            background: #475569;
+            color: white;
+            box-shadow: 0 4px 12px rgba(71, 85, 105, 0.3);
+        }
+
+        .navigation-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin-top: 24px;
+        }
+
+        .nav-quiz-btn {
+            padding: 12px 28px;
+            background: #64748b;
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-weight: 500;
+        }
+
+        .nav-quiz-btn:hover {
+            background: #475569;
+            transform: translateY(-1px);
+        }
+
+        .nav-quiz-btn:disabled {
+            background: #cbd5e1;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .get-recs-btn {
+            display: block;
+            margin: 32px auto;
+            padding: 16px 40px;
+            background: #334155;
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .get-recs-btn:hover {
+            background: #1e293b;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(30, 41, 59, 0.3);
+        }
+
+        .search-area {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .search-input {
+            padding: 16px 20px;
+            font-size: 1rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.9);
+            color: #475569;
+            width: 400px;
+            max-width: 90%;
+            transition: border-color 0.2s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #64748b;
+            box-shadow: 0 0 0 3px rgba(100, 116, 139, 0.1);
+        }
+
+        .search-input::placeholder {
+            color: #94a3b8;
+        }
+
+        .search-button {
+            padding: 16px 24px;
+            margin-left: 12px;
+            background: #64748b;
+            border: none;
+            border-radius: 8px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-weight: 500;
+        }
+
+        .search-button:hover {
+            background: #475569;
+            transform: translateY(-1px);
+        }
+
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 20px;
+            margin-top: 24px;
+        }
+
+        .liquor-card {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 24px;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+        }
+
+        .liquor-card:hover {
+            transform: translateY(-4px);
+            border-color: #cbd5e1;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+        }
+
+        .liquor-name {
+            font-size: 1.25rem;
+            color: #1e293b;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .liquor-type {
+            color: #64748b;
+            margin-bottom: 16px;
+            font-style: italic;
+            font-weight: 500;
+        }
+
+        .rating-display {
+            display: flex;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .stars {
+            color: #f59e0b;
+            margin-right: 8px;
+            font-size: 1rem;
+        }
+
+        .aisle-location {
+            background: rgba(248, 250, 252, 0.8);
+            padding: 10px 12px;
+            border-radius: 6px;
+            margin: 12px 0;
+            border-left: 3px solid #64748b;
+            font-size: 0.9rem;
+            color: #475569;
+        }
+
+        .taste-profile {
+            margin: 16px 0;
+        }
+
+        .taste-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 8px;
+        }
+
+        .taste-tag {
+            padding: 4px 10px;
+            background: rgba(100, 116, 139, 0.1);
+            border-radius: 20px;
+            font-size: 0.8rem;
+            color: #475569;
+            border: 1px solid rgba(100, 116, 139, 0.2);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+            margin-top: 16px;
+        }
+
+        .compare-btn {
+            flex: 1;
+            padding: 10px 16px;
+            background: #64748b;
+            border: none;
+            border-radius: 6px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .compare-btn:hover {
+            background: #475569;
+            transform: translateY(-1px);
+        }
+
+        .comparison-panel {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 32px;
+            border-radius: 16px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .comparison-title {
+            text-align: center;
+            color: #1e293b;
+            font-size: 1.5rem;
+            margin-bottom: 24px;
+            font-weight: 600;
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .compare-card {
+            background: rgba(248, 250, 252, 0.8);
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+            position: relative;
+        }
+
+        .remove-btn {
+            position: absolute;
+            top: 8px;
+            right: 12px;
+            background: #64748b;
+            border: none;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            color: white;
+            cursor: pointer;
+            transition: background 0.2s ease;
+            font-size: 0.8rem;
+        }
+
+        .remove-btn:hover {
+            background: #475569;
+        }
+
+        .detailed-comparison {
+            background: rgba(248, 250, 252, 0.6);
+            padding: 24px;
+            border-radius: 8px;
+            margin-top: 24px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 16px;
+        }
+
+        .comparison-table th,
+        .comparison-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .comparison-table th {
+            background: rgba(100, 116, 139, 0.1);
+            color: #334155;
+            font-weight: 600;
+        }
+
+        .recommendation-box {
+            background: rgba(34, 197, 94, 0.1);
+            padding: 16px;
+            border-radius: 8px;
+            margin-top: 16px;
+            border-left: 4px solid #22c55e;
+        }
+
+        .stock-indicator {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .in-stock {
+            background: #22c55e;
+            color: white;
+        }
+
+        .out-of-stock {
+            background: #64748b;
+            color: white;
+        }
+
+        .progress-indicator {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 24px;
+            gap: 8px;
+        }
+
+        .progress-step {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(100, 116, 139, 0.2);
+            transition: all 0.2s ease;
+        }
+
+        .progress-step.active {
+            background: #64748b;
+            box-shadow: 0 0 8px rgba(100, 116, 139, 0.4);
+        }
+
+        .progress-step.completed {
+            background: #22c55e;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2.5rem;
+            }
+            .search-input {
+                width: 280px;
+            }
+            .options-grid {
+                grid-template-columns: 1fr;
+            }
+            .nav-container {
+                padding: 6px;
+            }
+            .nav-btn {
+                margin: 2px;
+                padding: 10px 16px;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Arena Liquor</h1>
+            <p>Discover Your Perfect Liquor Match</p>
+        </div>
+
+        <div class="nav-container">
+            <button class="nav-btn active" onclick="showSection('quiz', event)">Find My Match</button>
+            <button class="nav-btn" onclick="showSection('search', event)">Search</button>
+            <button class="nav-btn" onclick="showSection('compare', event)">Compare</button>
+        </div>
+
+        <!-- Quiz Section -->
+        <div id="quiz" class="section active">
+            <div class="quiz-section">
+                <h2 style="text-align: center; color: #334155; margin-bottom: 30px; font-weight: 600;">Find Your Perfect Spirit</h2>
+                
+                <!-- Progress Indicator (3 steps) -->
+                <div class="progress-indicator">
+                    <div class="progress-step active" id="step1"></div>
+                    <div class="progress-step" id="step2"></div>
+                    <div class="progress-step" id="step3"></div>
+                </div>
+
+                <!-- Step 1: Category Selection -->
+                <div id="category-step" class="question-block">
+                    <div class="question-title">What type of spirit are you interested in?</div>
+                    <div class="options-grid">
+                        <div class="option-card" onclick="selectCategory('whiskey', event)">🥃 Whiskey</div>
+                        <div class="option-card" onclick="selectCategory('vodka', event)">🍸 Vodka</div>
+                        <div class="option-card" onclick="selectCategory('gin', event)">🌿 Gin</div>
+                        <div class="option-card" onclick="selectCategory('rum', event)">🏝 Rum</div>
+                        <div class="option-card" onclick="selectCategory('tequila', event)">🌵 Tequila</div>
+                        <div class="option-card" onclick="selectCategory('brandy', event)">🍇 Brandy</div>
+                        <div class="option-card" onclick="selectCategory('wine', event)">🍷 Wine</div>
+                    </div>
+                    <div class="navigation-buttons">
+                        <button class="nav-quiz-btn" onclick="nextStep()" id="next-btn-1" disabled>Next</button>
+                    </div>
+                </div>
+
+                <!-- Step 2: Subcategory Selection -->
+                <div id="subcategory-step" class="question-block" style="display: none;">
+                    <div class="question-title" id="subcategory-title">Choose your preferred type:</div>
+                    <div class="options-grid" id="subcategory-options">
+                        <!-- Dynamically populated -->
+                    </div>
+                    <div class="navigation-buttons">
+                        <button class="nav-quiz-btn" onclick="prevStep()">Back</button>
+                        <button class="nav-quiz-btn" onclick="nextStep()" id="next-btn-2" disabled>Next</button>
+                    </div>
+                </div>
+
+                <!-- Step 3: Taste Preference -->
+                <div id="taste-step" class="question-block" style="display: none;">
+                    <div class="question-title" id="taste-title">What's your taste preference?</div>
+                    <div class="options-grid" id="taste-options">
+                        <!-- Dynamically populated based on category -->
+                    </div>
+                    <div class="navigation-buttons">
+                        <button class="nav-quiz-btn" onclick="prevStep()">Back</button>
+                        <button class="get-recs-btn" onclick="getRecommendations()">Find My Perfect Match!</button>
+                    </div>
+                </div>
+                
+                <div id="quiz-results" class="results-grid"></div>
+            </div>
+        </div>
+
+        <!-- Search Section -->
+        <div id="search" class="section">
+            <div class="search-area">
+                <input type="text" class="search-input" id="searchInput" placeholder="Search for spirits...">
+                <button class="search-button" onclick="searchSpirits()">Search</button>
+            </div>
+            <div id="search-results" class="results-grid"></div>
+        </div>
+
+        <!-- Compare Section -->
+        <div id="compare" class="section">
+            <div class="comparison-panel">
+                <h2 class="comparison-title">Spirit Comparison</h2>
+                <div id="comparison-grid" class="comparison-grid"></div>
+                <button class="get-recs-btn" onclick="showDetailedComparison()">Show Detailed Comparison</button>
+                <div id="detailed-comparison" class="detailed-comparison" style="display: none;"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Enhanced spirit database with fixed structure
+        const spiritDatabase = [
+            // Whiskey - Bourbon
+            {
+                name: "Buffalo Trace",
+                category: "whiskey",
+                subcategory: "bourbon",
+                rating: 4.3,
+                aisle: "Aisle 2 - American Whiskey",
+                inStock: true,
+                tastes: ["sweet", "vanilla", "caramel", "smooth"],
+                notes: "Rich caramel and vanilla flavors with a warm spicy finish"
+            },
+            {
+                name: "Maker's Mark",
+                category: "whiskey",
+                subcategory: "bourbon",
+                rating: 4.1,
+                aisle: "Aisle 2 - American Whiskey",
+                inStock: true,
+                tastes: ["sweet", "smooth", "vanilla", "oaky"],
+                notes: "Wheated bourbon with honey and cinnamon notes"
+            },
+            {
+                name: "Wild Turkey 101",
+                category: "whiskey",
+                subcategory: "bourbon",
+                rating: 4.4,
+                aisle: "Aisle 2 - American Whiskey",
+                inStock: true,
+                tastes: ["spicy", "oaky", "bold", "smooth"],
+                notes: "Full-bodied with intense spice and oak character"
+            },
+            // Whiskey - Scotch
+            {
+                name: "Glenlivet 12",
+                category: "whiskey",
+                subcategory: "scotch",
+                rating: 4.2,
+                aisle: "Aisle 1 - Scotch Whisky",
+                inStock: true,
+                tastes: ["fruity", "honey", "smooth", "dry"],
+                notes: "Light and fruity with honey and citrus notes"
+            },
+            {
+                name: "Macallan 12",
+                category: "whiskey",
+                subcategory: "scotch",
+                rating: 4.5,
+                aisle: "Aisle 1 - Scotch Whisky",
+                inStock: true,
+                tastes: ["fruity", "nutty", "dry", "smooth"],
+                notes: "Rich sherry influence with dried fruits and spice"
+            },
+            {
+                name: "Ardbeg 10",
+                category: "whiskey",
+                subcategory: "scotch",
+                rating: 4.6,
+                aisle: "Aisle 1 - Peated Scotch",
+                inStock: false,
+                tastes: ["smoky", "peaty", "bold", "dry"],
+                notes: "Intensely smoky and peaty with maritime character"
+            },
+            // Whiskey - Barrel Proof
+            {
+                name: "Elijah Craig Barrel Proof",
+                category: "whiskey",
+                subcategory: "barrel-proof",
+                rating: 4.7,
+                aisle: "Aisle 2 - Barrel Proof",
+                inStock: true,
+                tastes: ["intense", "rich", "complex", "full-bodied"],
+                notes: "Uncut and unfiltered with intense flavor concentration"
+            },
+            {
+                name: "Stagg Jr.",
+                category: "whiskey",
+                subcategory: "barrel-proof",
+                rating: 4.8,
+                aisle: "Aisle 2 - Barrel Proof",
+                inStock: false,
+                tastes: ["bold", "complex", "warming", "intense"],
+                notes: "High proof bourbon with incredible depth and heat"
+            },
+            // Whiskey - Rye
+            {
+                name: "Rittenhouse Rye",
+                category: "whiskey",
+                subcategory: "rye",
+                rating: 4.3,
+                aisle: "Aisle 2 - Rye Whiskey",
+                inStock: true,
+                tastes: ["spicy", "peppery", "bold", "dry"],
+                notes: "Classic rye spice with pepper and herbs"
+            },
+            // Whiskey - Irish
+            {
+                name: "Jameson",
+                category: "whiskey",
+                subcategory: "irish",
+                rating: 4.1,
+                aisle: "Aisle 3 - Irish Whiskey",
+                inStock: true,
+                tastes: ["smooth", "light", "honey", "mellow"],
+                notes: "Triple distilled smoothness with honey sweetness"
+            },
+            // Vodka
+            {
+                name: "Tito's",
+                category: "vodka",
+                subcategory: "grain",
+                rating: 4.0,
+                aisle: "Aisle 4 - Vodka",
+                inStock: true,
+                tastes: ["clean", "neutral", "smooth", "crisp"],
+                notes: "Clean and neutral with slight corn sweetness"
+            },
+            {
+                name: "Grey Goose",
+                category: "vodka",
+                subcategory: "wheat",
+                rating: 4.2,
+                aisle: "Aisle 4 - Premium Vodka",
+                inStock: true,
+                tastes: ["creamy", "smooth", "refined", "silky"],
+                notes: "Exceptionally smooth with creamy wheat character"
+            },
+            {
+                name: "Belvedere",
+                category: "vodka",
+                subcategory: "rye",
+                rating: 4.3,
+                aisle: "Aisle 4 - Premium Vodka",
+                inStock: true,
+                tastes: ["smooth", "crisp", "clean", "bold"],
+                notes: "Pure rye vodka with subtle vanilla notes"
+            },
+            {
+                name: "Chopin Potato",
+                category: "vodka",
+                subcategory: "potato",
+                rating: 4.1,
+                aisle: "Aisle 4 - Premium Vodka",
+                inStock: true,
+                tastes: ["creamy", "rich", "full-bodied", "smooth"],
+                notes: "Rich potato vodka with creamy texture"
+            },
+            // Tequila
+            {
+                name: "Espolòn Blanco",
+                category: "tequila",
+                subcategory: "blanco",
+                rating: 4.2,
+                aisle: "Aisle 7 - Tequila",
+                inStock: true,
+                tastes: ["clean", "crisp", "fresh", "bright"],
+                notes: "Pure agave with pepper and citrus"
+            },
+            {
+                name: "Herradura Reposado",
+                category: "tequila",
+                subcategory: "reposado",
+                rating: 4.3,
+                aisle: "Aisle 7 - Tequila",
+                inStock: true,
+                tastes: ["smooth", "oaky", "balanced", "mellow"],
+                notes: "Oak-aged with vanilla and agave balance"
+            },
+            {
+                name: "Don Julio Añejo",
+                category: "tequila",
+                subcategory: "anejo",
+                rating: 4.6,
+                aisle: "Aisle 7 - Premium Tequila",
+                inStock: true,
+                tastes: ["rich", "complex", "smooth", "full-bodied"],
+                notes: "Rich and complex with chocolate notes"
+            },
+            // Gin
+            {
+                name: "Tanqueray",
+                category: "gin",
+                subcategory: "london-dry",
+                rating: 4.1,
+                aisle: "Aisle 5 - Gin",
+                inStock: true,
+                tastes: ["juniper", "crisp", "dry", "herbal"],
+                notes: "Juniper-forward with citrus and spice botanicals"
+            },
+            {
+                name: "Hendrick's",
+                category: "gin",
+                subcategory: "contemporary",
+                rating: 4.3,
+                aisle: "Aisle 5 - Premium Gin",
+                inStock: true,
+                tastes: ["floral", "smooth", "fresh", "aromatic"],
+                notes: "Cucumber and rose petal with gentle juniper"
+            },
+            // Rum
+            {
+                name: "Bacardi Superior",
+                category: "rum",
+                subcategory: "white",
+                rating: 3.8,
+                aisle: "Aisle 6 - Rum",
+                inStock: true,
+                tastes: ["light", "clean", "sweet", "smooth"],
+                notes: "Light and clean with subtle vanilla"
+            },
+            {
+                name: "Kraken Black Spiced",
+                category: "rum",
+                subcategory: "spiced",
+                rating: 4.0,
+                aisle: "Aisle 6 - Spiced Rum",
+                inStock: true,
+                tastes: ["spicy", "warm", "sweet", "complex"],
+                notes: "Rich molasses with warming spices"
+            },
+            // Brandy
+            {
+                name: "Hennessy VS",
+                category: "brandy",
+                subcategory: "cognac",
+                rating: 4.0,
+                aisle: "Aisle 8 - Brandy & Cognac",
+                inStock: true,
+                tastes: ["smooth", "fruity", "oaky", "elegant"],
+                notes: "Grape brandy with fruit and oak notes"
+            },
+            // Wine - Red Wine
+            {
+                name: "Caymus Cabernet Sauvignon",
+                category: "wine",
+                subcategory: "red-wine",
+                rating: 4.4,
+                aisle: "Aisle 10 - Red Wine",
+                inStock: true,
+                tastes: ["fruity", "bold", "full-bodied", "smooth"],
+                notes: "Full-bodied Napa Valley Cabernet with dark fruit and spice"
+            },
+            {
+                name: "Château Margaux",
+                category: "wine",
+                subcategory: "red-wine",
+                rating: 4.8,
+                aisle: "Aisle 10 - Premium Red Wine",
+                inStock: false,
+                tastes: ["earthy", "dry", "bold", "smooth"],
+                notes: "Elegant Bordeaux with complex tannins and earthy undertones"
+            },
+            {
+                name: "Barolo Brunate",
+                category: "wine",
+                subcategory: "red-wine",
+                rating: 4.6,
+                aisle: "Aisle 10 - Italian Red Wine",
+                inStock: true,
+                tastes: ["bold", "earthy", "dry", "full-bodied"],
+                notes: "Powerful Nebbiolo with rose, tar, and truffle notes"
+            },
+            // Wine - White Wine
+            {
+                name: "Kendall-Jackson Chardonnay",
+                category: "wine",
+                subcategory: "white-wine",
+                rating: 4.1,
+                aisle: "Aisle 9 - White Wine",
+                inStock: true,
+                tastes: ["fruity", "smooth", "crisp", "light"],
+                notes: "Rich California Chardonnay with apple and vanilla notes"
+            },
+            {
+                name: "Sancerre Henri Bourgeois",
+                category: "wine",
+                subcategory: "white-wine",
+                rating: 4.3,
+                aisle: "Aisle 9 - French White Wine",
+                inStock: true,
+                tastes: ["crisp", "dry", "fresh", "light"],
+                notes: "Loire Valley Sauvignon Blanc with citrus and mineral precision"
+            },
+            {
+                name: "Riesling Dr. Loosen",
+                category: "wine",
+                subcategory: "white-wine",
+                rating: 4.2,
+                aisle: "Aisle 9 - German White Wine",
+                inStock: true,
+                tastes: ["fruity", "smooth", "fresh", "light"],
+                notes: "German Riesling with lime, slate, and honeyed sweetness"
+            },
+            // Wine - Rosé
+            {
+                name: "Whispering Angel Rosé",
+                category: "wine",
+                subcategory: "rosé",
+                rating: 4.0,
+                aisle: "Aisle 11 - Rosé Wine",
+                inStock: true,
+                tastes: ["light", "fruity", "crisp", "fresh"],
+                notes: "Provence rosé with delicate fruit and mineral finish"
+            },
+            // Wine - Sparkling
+            {
+                name: "Dom Pérignon",
+                category: "wine",
+                subcategory: "sparkling",
+                rating: 4.7,
+                aisle: "Aisle 12 - Champagne",
+                inStock: false,
+                tastes: ["crisp", "fresh", "light", "bright"],
+                notes: "Prestigious Champagne with complex bubbles and aged character"
+            },
+            {
+                name: "Prosecco di Valdobbiadene",
+                category: "wine",
+                subcategory: "sparkling",
+                rating: 4.0,
+                aisle: "Aisle 12 - Sparkling Wine",
+                inStock: true,
+                tastes: ["fresh", "light", "bubbly", "crisp"],
+                notes: "Italian Prosecco with fresh fruit and lively bubbles"
+            },
+            // Wine - Dessert Wine
+            {
+                name: "Sauternes Château d'Yquem",
+                category: "wine",
+                subcategory: "dessert-wine",
+                rating: 4.9,
+                aisle: "Aisle 13 - Dessert Wine",
+                inStock: false,
+                tastes: ["sweet", "rich", "complex", "luxurious"],
+                notes: "Legendary dessert wine with honeyed fruit and botrytis complexity"
+            }
+        ];
+
+        // Dynamic category configurations with refined, commonly used taste terms
+        const categoryConfig = {
+            whiskey: {
+                subcategories: [
+                    { id: "bourbon", name: "Bourbon", tastes: ["sweet", "vanilla", "caramel", "spicy", "oaky", "smooth"] },
+                    { id: "scotch", name: "Scotch", tastes: ["smoky", "peaty", "fruity", "honey", "nutty", "dry"] },
+                    { id: "rye", name: "Rye", tastes: ["spicy", "peppery", "bold", "dry", "herbal", "sharp"] },
+                    { id: "irish", name: "Irish", tastes: ["smooth", "light", "honey", "fruity", "clean", "mellow"] },
+                    { id: "barrel-proof", name: "Barrel Proof", tastes: ["intense", "rich", "bold", "complex", "full-bodied", "warming"] }
+                ]
+            },
+            vodka: {
+                subcategories: [
+                    { id: "grain", name: "Grain Vodka", tastes: ["clean", "neutral", "smooth", "crisp", "pure", "light"] },
+                    { id: "wheat", name: "Wheat Vodka", tastes: ["creamy", "soft", "smooth", "silky", "mellow", "refined"] },
+                    { id: "rye", name: "Rye Vodka", tastes: ["spicy", "dry", "crisp", "sharp", "clean", "bold"] },
+                    { id: "potato", name: "Potato Vodka", tastes: ["creamy", "rich", "full-bodied", "smooth", "thick", "earthy"] }
+                ]
+            },
+            gin: {
+                subcategories: [
+                    { id: "london-dry", name: "London Dry", tastes: ["juniper", "crisp", "dry", "herbal", "citrusy", "clean"] },
+                    { id: "contemporary", name: "Contemporary", tastes: ["floral", "smooth", "botanical", "fresh", "aromatic", "balanced"] },
+                    { id: "old-tom", name: "Old Tom", tastes: ["sweet", "smooth", "balanced", "mellow", "citrusy", "soft"] }
+                ]
+            },
+            rum: {
+                subcategories: [
+                    { id: "white", name: "White Rum", tastes: ["light", "clean", "sweet", "smooth", "fresh", "crisp"] },
+                    { id: "golden", name: "Golden Rum", tastes: ["smooth", "sweet", "fruity", "rich", "warm", "mellow"] },
+                    { id: "dark", name: "Dark Rum", tastes: ["rich", "molasses", "sweet", "complex", "full-bodied", "warming"] },
+                    { id: "spiced", name: "Spiced Rum", tastes: ["spicy", "warm", "sweet", "aromatic", "complex", "smooth"] }
+                ]
+            },
+            tequila: {
+                subcategories: [
+                    { id: "blanco", name: "Blanco", tastes: ["clean", "crisp", "agave", "fresh", "bright", "pure"] },
+                    { id: "reposado", name: "Reposado", tastes: ["smooth", "oaky", "balanced", "mellow", "vanilla", "warm"] },
+                    { id: "anejo", name: "Añejo", tastes: ["rich", "complex", "oaky", "smooth", "caramel", "full-bodied"] },
+                    { id: "extra-anejo", name: "Extra Añejo", tastes: ["complex", "rich", "oaky", "smooth", "luxurious", "refined"] }
+                ]
+            },
+            brandy: {
+                subcategories: [
+                    { id: "cognac", name: "Cognac", tastes: ["smooth", "fruity", "oaky", "elegant", "refined", "complex"] },
+                    { id: "armagnac", name: "Armagnac", tastes: ["rustic", "fruity", "earthy", "bold", "complex", "traditional"] },
+                    { id: "american", name: "American Brandy", tastes: ["smooth", "fruity", "oaky", "mellow", "clean", "balanced"] }
+                ]
+            },
+            wine: {
+                subcategories: [
+                    { id: "red-wine", name: "Red Wine", tastes: ["fruity", "bold", "dry", "smooth", "earthy", "full-bodied"] },
+                    { id: "white-wine", name: "White Wine", tastes: ["crisp", "light", "fruity", "dry", "fresh", "smooth"] },
+                    { id: "rosé", name: "Rosé", tastes: ["light", "fruity", "crisp", "fresh", "dry", "smooth"] },
+                    { id: "sparkling", name: "Sparkling", tastes: ["crisp", "fresh", "light", "bubbly", "clean", "bright"] },
+                    { id: "dessert-wine", name: "Dessert Wine", tastes: ["sweet", "rich", "smooth", "complex", "fruity", "luxurious"] }
+                ]
+            }
+        };
+
+        let userPreferences = {};
+        let comparisonList = [];
+        let currentStep = 1;
+
+        // Category selection
+        function selectCategory(category, event) {
+            console.log('Category selected:', category);
+            
+            // Remove previous selections
+            document.querySelectorAll('#category-step .option-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            
+            // Select current category
+            event.target.classList.add('selected');
+            userPreferences['main-category'] = category;
+            
+            console.log('User preferences updated:', userPreferences);
+            
+            // Enable next button
+            document.getElementById('next-btn-1').disabled = false;
+        }
+
+        // Subcategory selection
+        function selectSubcategory(subcategory, event) {
+            console.log('Subcategory selected:', subcategory);
+            
+            // Remove previous selections
+            document.querySelectorAll('#subcategory-options .option-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            
+            // Select current subcategory
+            event.target.classList.add('selected');
+            userPreferences['subcategory'] = subcategory;
+            
+            console.log('User preferences updated:', userPreferences);
+            
+            // Enable next button
+            document.getElementById('next-btn-2').disabled = false;
+        }
+
+        // Taste selection
+        function selectTaste(taste, event) {
+            console.log('Taste selected:', taste);
+            
+            // Remove previous selections
+            document.querySelectorAll('#taste-options .option-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            
+            // Select current taste
+            event.target.classList.add('selected');
+            userPreferences['taste'] = taste;
+            
+            console.log('User preferences updated:', userPreferences);
+        }
+
+        // Quiz step management
+        function nextStep() {
+            console.log('Moving to next step, current step:', currentStep);
+            
+            if (currentStep < 3) {
+                // Hide current step
+                document.getElementById(getStepId(currentStep)).style.display = 'none';
+                document.getElementById('step' + currentStep).classList.remove('active');
+                document.getElementById('step' + currentStep).classList.add('completed');
+                
+                currentStep++;
+                
+                // Show next step
+                document.getElementById(getStepId(currentStep)).style.display = 'block';
+                document.getElementById('step' + currentStep).classList.add('active');
+                
+                if (currentStep === 2) {
+                    populateSubcategories();
+                } else if (currentStep === 3) {
+                    populateTastes();
+                }
+            }
+        }
+
+        function prevStep() {
+            if (currentStep > 1) {
+                document.getElementById(getStepId(currentStep)).style.display = 'none';
+                document.getElementById('step' + currentStep).classList.remove('active');
+                
+                currentStep--;
+                
+                document.getElementById(getStepId(currentStep)).style.display = 'block';
+                document.getElementById('step' + currentStep).classList.remove('completed');
+                document.getElementById('step' + currentStep).classList.add('active');
+            }
+        }
+
+        function getStepId(step) {
+            const stepIds = ['', 'category-step', 'subcategory-step', 'taste-step'];
+            return stepIds[step];
+        }
+
+        function populateSubcategories() {
+            const category = userPreferences['main-category'];
+            const config = categoryConfig[category];
+            const container = document.getElementById('subcategory-options');
+            const title = document.getElementById('subcategory-title');
+            
+            console.log('Populating subcategories for:', category);
+            
+            title.textContent = 'Choose your preferred ' + category + ' type:';
+            container.innerHTML = '';
+            
+            if (!config || !config.subcategories) {
+                console.error('No subcategories found for category:', category);
+                return;
+            }
+            
+            config.subcategories.forEach(subcat => {
+                const option = document.createElement('div');
+                option.className = 'option-card';
+                option.textContent = subcat.name;
+                option.onclick = function(event) { selectSubcategory(subcat.id, event); };
+                container.appendChild(option);
+                console.log('Added subcategory:', subcat.name);
+            });
+        }
+
+        function populateTastes() {
+            const category = userPreferences['main-category'];
+            const subcategory = userPreferences['subcategory'];
+            const config = categoryConfig[category];
+            const container = document.getElementById('taste-options');
+            const title = document.getElementById('taste-title');
+            
+            console.log('Populating tastes for category:', category, 'subcategory:', subcategory);
+            
+            container.innerHTML = '';
+            
+            if (!config || !config.subcategories) {
+                console.error('No configuration found for category:', category);
+                return;
+            }
+            
+            // Find the specific subcategory configuration
+            const subcatConfig = config.subcategories.find(sub => sub.id === subcategory);
+            
+            if (!subcatConfig || !subcatConfig.tastes) {
+                console.error('No tastes found for subcategory:', subcategory);
+                return;
+            }
+            
+            title.textContent = 'What ' + subcatConfig.name.toLowerCase() + ' taste do you prefer?';
+            
+            subcatConfig.tastes.forEach(taste => {
+                const option = document.createElement('div');
+                option.className = 'option-card';
+                option.textContent = taste.charAt(0).toUpperCase() + taste.slice(1).replace('-', ' ');
+                option.onclick = function(event) { selectTaste(taste, event); };
+                container.appendChild(option);
+                console.log('Added taste:', taste);
+            });
+        }
+
+        // Enhanced recommendation algorithm that prioritizes taste matching
+        function getRecommendations() {
+            console.log('Getting recommendations for preferences:', userPreferences);
+            
+            if (Object.keys(userPreferences).length < 3) {
+                alert('Please complete all steps to get your recommendations!');
+                return;
+            }
+
+            const selectedCategory = userPreferences['main-category'];
+            const selectedSubcategory = userPreferences['subcategory'];
+            const selectedTaste = userPreferences['taste'];
+            
+            // Filter spirits to only show the selected category and subcategory
+            const categorySpirits = spiritDatabase.filter(spirit => 
+                spirit.category === selectedCategory && 
+                spirit.subcategory === selectedSubcategory
+            );
+            
+            console.log('Found', categorySpirits.length, 'spirits in category:', selectedCategory, 'subcategory:', selectedSubcategory);
+            
+            // Only show spirits that have the exact taste preference
+            const tasteMatchedSpirits = categorySpirits.filter(spirit => 
+                spirit.tastes.includes(selectedTaste)
+            );
+            
+            console.log('Found', tasteMatchedSpirits.length, 'spirits matching taste:', selectedTaste);
+            
+            const recommendations = [];
+            
+            tasteMatchedSpirits.forEach(spirit => {
+                let score = 0;
+                
+                // Base score for exact taste match
+                score += 10;
+                
+                // Additional points for multiple taste matches
+                const tasteMatches = spirit.tastes.filter(taste => taste === selectedTaste).length;
+                score += tasteMatches * 2;
+                
+                // Bonus for higher ratings
+                if (spirit.rating >= 4.5) {
+                    score += 3;
+                } else if (spirit.rating >= 4.0) {
+                    score += 2;
+                } else if (spirit.rating >= 3.5) {
+                    score += 1;
+                }
+                
+                // Bonus for being in stock
+                if (spirit.inStock) {
+                    score += 1;
+                }
+                
+                recommendations.push({
+                    ...spirit,
+                    score: score
+                });
+            });
+
+            // If no exact taste matches, show message
+            if (recommendations.length === 0) {
+                document.getElementById('quiz-results').innerHTML = 
+                    '<div style="text-align: center; color: #64748b; font-size: 1.1rem; padding: 40px; background: rgba(255,255,255,0.8); border-radius: 12px; border: 1px solid #e2e8f0;">' +
+                    '<h3 style="color: #334155; margin-bottom: 16px;">No Perfect Matches Found</h3>' +
+                    '<p>We couldn\'t find any <strong>' + selectedSubcategory.replace('-', ' ') + '</strong> spirits with a <strong>' + selectedTaste + '</strong> taste profile in our current inventory.</p>' +
+                    '<p style="margin-top: 12px;">Try selecting a different taste preference or explore other subcategories!</p>' +
+                    '</div>';
+                return;
+            }
+
+            // Sort by score then rating
+            recommendations.sort((a, b) => {
+                if (b.score === a.score) {
+                    return b.rating - a.rating;
+                }
+                return b.score - a.score;
+            });
+
+            console.log('Generated', recommendations.length, 'taste-matched recommendations');
+            displayResults(recommendations, 'quiz-results');
+        }
+
+        // Display results
+        function displayResults(spirits, containerId) {
+            console.log('Displaying', spirits.length, 'spirits in container:', containerId);
+            
+            const container = document.getElementById(containerId);
+            if (!container) {
+                console.error('Container not found:', containerId);
+                return;
+            }
+            
+            container.innerHTML = '';
+
+            if (!spirits || spirits.length === 0) {
+                container.innerHTML = '<div style="text-align: center; color: #64748b; font-size: 1.1rem; padding: 20px;">No spirits found matching your preferences. Try different selections.</div>';
+                return;
+            }
+
+            spirits.forEach(spirit => {
+                const card = createSpiritCard(spirit);
+                container.appendChild(card);
+            });
+        }
+
+        function createSpiritCard(spirit) {
+            const card = document.createElement('div');
+            card.className = 'liquor-card';
+            
+            const stars = '★'.repeat(Math.floor(spirit.rating)) + '☆'.repeat(5 - Math.floor(spirit.rating));
+            
+            const tasteTagsHTML = spirit.tastes.map(taste => 
+                '<span class="taste-tag">' + taste.replace('-', ' ') + '</span>'
+            ).join('');
+            
+            // Add match indicator if this is from quiz results
+            let matchIndicator = '';
+            if (userPreferences['taste'] && spirit.tastes.includes(userPreferences['taste'])) {
+                matchIndicator = '<div style="background: rgba(34, 197, 94, 0.1); color: #22c55e; padding: 6px 12px; border-radius: 6px; font-size: 0.8rem; font-weight: 600; margin-bottom: 12px; border: 1px solid rgba(34, 197, 94, 0.2);">✓ Perfect taste match</div>';
+            }
+            
+            card.innerHTML = 
+                matchIndicator +
+                '<div class="liquor-name">' + spirit.name + '</div>' +
+                '<div class="liquor-type">' + (spirit.subcategory ? spirit.subcategory.replace('-', ' ') : spirit.category) + '</div>' +
+                '<div class="rating-display">' +
+                    '<span class="stars">' + stars + '</span>' +
+                    '<span>' + spirit.rating + '/5</span>' +
+                '</div>' +
+                '<div class="aisle-location">📍 ' + spirit.aisle + '</div>' +
+                '<div class="stock-indicator ' + (spirit.inStock ? 'in-stock' : 'out-of-stock') + '">' +
+                    (spirit.inStock ? 'In Stock' : 'Out of Stock') +
+                '</div>' +
+                '<div class="taste-profile">' +
+                    '<strong>Taste Profile:</strong>' +
+                    '<div class="taste-tags">' + tasteTagsHTML + '</div>' +
+                '</div>' +
+                '<div style="margin: 12px 0; font-size: 0.9rem; color: #64748b; line-height: 1.4;">' +
+                    spirit.notes +
+                '</div>' +
+                '<div class="action-buttons">' +
+                    '<button class="compare-btn" onclick="addToComparison(\'' + spirit.name + '\')">' +
+                        'Add to Compare' +
+                    '</button>' +
+                '</div>';
+            
+            return card;
+        }
+
+        // Navigation functionality
+        function showSection(sectionId, event) {
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.remove('active');
+            });
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            document.getElementById(sectionId).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        // Advanced search with taste filtering
+        function searchSpirits() {
+            const query = document.getElementById('searchInput').value.toLowerCase().trim();
+            if (!query) {
+                alert('Please enter a search term');
+                return;
+            }
+            
+            const results = spiritDatabase.filter(spirit => 
+                spirit.name.toLowerCase().includes(query) ||
+                spirit.category.toLowerCase().includes(query) ||
+                (spirit.subcategory && spirit.subcategory.toLowerCase().includes(query)) ||
+                spirit.notes.toLowerCase().includes(query) ||
+                spirit.tastes.some(taste => taste.toLowerCase().includes(query)) ||
+                spirit.aisle.toLowerCase().includes(query)
+            );
+            
+            // Sort results by relevance (exact name matches first, then partial matches)
+            results.sort((a, b) => {
+                const aNameMatch = a.name.toLowerCase().includes(query);
+                const bNameMatch = b.name.toLowerCase().includes(query);
+                
+                if (aNameMatch && !bNameMatch) return -1;
+                if (!aNameMatch && bNameMatch) return 1;
+                
+                // If both or neither match name, sort by rating
+                return b.rating - a.rating;
+            });
+            
+            displayResults(results, 'search-results');
+            
+            if (results.length === 0) {
+                document.getElementById('search-results').innerHTML = 
+                    '<div style="text-align: center; color: #64748b; font-size: 1.1rem; padding: 40px; background: rgba(255,255,255,0.8); border-radius: 12px; border: 1px solid #e2e8f0;">' +
+                    '<h3 style="color: #334155; margin-bottom: 16px;">No Results Found</h3>' +
+                    '<p>No spirits found matching "<strong>' + query + '</strong>"</p>' +
+                    '<p style="margin-top: 12px;">Try searching for categories like "whiskey", taste profiles like "smooth", or brand names.</p>' +
+                    '</div>';
+            } else {
+                // Add search summary
+                const summaryDiv = document.createElement('div');
+                summaryDiv.style.cssText = 'text-align: center; margin-bottom: 20px; padding: 16px; background: rgba(100,116,139,0.1); border-radius: 8px; color: #475569;';
+                summaryDiv.innerHTML = `Found <strong>${results.length}</strong> result${results.length !== 1 ? 's' : ''} for "<strong>${query}</strong>"`;
+                
+                const resultsContainer = document.getElementById('search-results');
+                resultsContainer.insertBefore(summaryDiv, resultsContainer.firstChild);
+            }
+        }
+
+        // Search on Enter key
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('searchInput');
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        searchSpirits();
+                    }
+                });
+            }
+            updateComparisonDisplay();
+        });
+
+        // Comparison functionality
+        function addToComparison(spiritName) {
+            const spirit = spiritDatabase.find(s => s.name === spiritName);
+            if (!spirit) return;
+            
+            if (comparisonList.find(item => item.name === spiritName)) {
+                alert('This spirit is already in your comparison list!');
+                return;
+            }
+            
+            if (comparisonList.length >= 4) {
+                alert('You can compare up to 4 spirits at a time. Remove one first.');
+                return;
+            }
+            
+            comparisonList.push(spirit);
+            updateComparisonDisplay();
+            alert(spiritName + ' added to comparison!');
+        }
+
+        function removeFromComparison(index) {
+            comparisonList.splice(index, 1);
+            updateComparisonDisplay();
+        }
+
+        function updateComparisonDisplay() {
+            const container = document.getElementById('comparison-grid');
+            if (!container) return;
+            
+            container.innerHTML = '';
+            
+            if (comparisonList.length === 0) {
+                container.innerHTML = '<div style="text-align: center; color: #64748b; padding: 20px;">No spirits selected for comparison yet.</div>';
+                return;
+            }
+            
+            comparisonList.forEach((spirit, index) => {
+                const card = document.createElement('div');
+                card.className = 'compare-card';
+                
+                const stars = '★'.repeat(Math.floor(spirit.rating)) + '☆'.repeat(5 - Math.floor(spirit.rating));
+                const tasteTagsHTML = spirit.tastes.map(taste => 
+                    '<span class="taste-tag">' + taste.replace('-', ' ') + '</span>'
+                ).join('');
+                
+                card.innerHTML = 
+                    '<button class="remove-btn" onclick="removeFromComparison(' + index + ')">&times;</button>' +
+                    '<div class="liquor-name">' + spirit.name + '</div>' +
+                    '<div class="liquor-type">' + (spirit.subcategory ? spirit.subcategory.replace('-', ' ') : spirit.category) + '</div>' +
+                    '<div class="rating-display">' +
+                        '<span class="stars">' + stars + '</span>' +
+                        '<span>' + spirit.rating + '/5</span>' +
+                    '</div>' +
+                    '<div class="taste-tags">' + tasteTagsHTML + '</div>' +
+                    '<div class="stock-indicator ' + (spirit.inStock ? 'in-stock' : 'out-of-stock') + '">' +
+                        (spirit.inStock ? 'In Stock' : 'Out of Stock') +
+                    '</div>';
+                
+                container.appendChild(card);
+            });
+        }
+
+        // Enhanced comparison with recommendations
+        function showDetailedComparison() {
+            if (comparisonList.length < 2) {
+                alert('Please add at least 2 spirits to compare.');
+                return;
+            }
+            
+            const container = document.getElementById('detailed-comparison');
+            container.style.display = 'block';
+            
+            // Calculate best overall choice
+            const bestChoice = comparisonList.reduce((best, current) => {
+                const bestScore = (best.rating * 2) + (best.inStock ? 1 : 0);
+                const currentScore = (current.rating * 2) + (current.inStock ? 1 : 0);
+                return currentScore > bestScore ? current : best;
+            });
+            
+            let tableHTML = 
+                '<h3 style="color: #334155; margin-bottom: 15px; font-weight: 600;">Detailed Comparison</h3>' +
+                '<div style="background: rgba(34, 197, 94, 0.1); padding: 12px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #22c55e;">' +
+                    '<strong style="color: #22c55e;">Recommendation:</strong> ' +
+                    '<span style="color: #334155;">' + bestChoice.name + ' offers the best combination of rating (' + bestChoice.rating + '/5) and availability.</span>' +
+                '</div>' +
+                '<table class="comparison-table">' +
+                    '<thead>' +
+                        '<tr>' +
+                            '<th>Feature</th>' +
+                            comparisonList.map(spirit => '<th>' + spirit.name + (spirit.name === bestChoice.name ? ' ⭐' : '') + '</th>').join('') +
+                        '</tr>' +
+                    '</thead>' +
+                    '<tbody>' +
+                        '<tr>' +
+                            '<td><strong>Category</strong></td>' +
+                            comparisonList.map(spirit => '<td>' + spirit.category + '</td>').join('') +
+                        '</tr>' +
+                        '<tr>' +
+                            '<td><strong>Type</strong></td>' +
+                            comparisonList.map(spirit => '<td>' + (spirit.subcategory ? spirit.subcategory.replace('-', ' ') : 'Standard') + '</td>').join('') +
+                        '</tr>' +
+                        '<tr>' +
+                            '<td><strong>Rating</strong></td>' +
+                            comparisonList.map(spirit => '<td><strong>' + spirit.rating + '/5</strong></td>').join('') +
+                        '</tr>' +
+                        '<tr>' +
+                            '<td><strong>Taste Profile</strong></td>' +
+                            comparisonList.map(spirit => '<td>' + spirit.tastes.join(', ').replace(/-/g, ' ') + '</td>').join('') +
+                        '</tr>' +
+                        '<tr>' +
+                            '<td><strong>Availability</strong></td>' +
+                            comparisonList.map(spirit => '<td><span class="stock-indicator ' + (spirit.inStock ? 'in-stock' : 'out-of-stock') + '">' + (spirit.inStock ? 'In Stock' : 'Out of Stock') + '</span></td>').join('') +
+                        '</tr>' +
+                        '<tr>' +
+                            '<td><strong>Location</strong></td>' +
+                            comparisonList.map(spirit => '<td>' + spirit.aisle + '</td>').join('') +
+                        '</tr>' +
+                        '<tr>' +
+                            '<td><strong>Tasting Notes</strong></td>' +
+                            comparisonList.map(spirit => '<td style="font-size: 0.9rem;">' + spirit.notes + '</td>').join('') +
+                        '</tr>' +
+                    '</tbody>' +
+                '</table>';
+            
+            container.innerHTML = tableHTML;
+        }
+    </script>
+</body>
+</html>
